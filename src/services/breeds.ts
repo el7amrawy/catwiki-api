@@ -55,7 +55,7 @@ class Breeds {
       );
       if (res.data.length) {
         const images = res.data;
-        console.log(res.data);
+        // console.log(res.data);
 
         return images;
       } else {
