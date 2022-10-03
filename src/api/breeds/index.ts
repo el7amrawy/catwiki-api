@@ -16,7 +16,7 @@ breeds.get("/breeds", async (req: Request, res: Response) => {
       res.json(data);
     }
   } catch (err) {
-    res.status(503).json(err);
+    res.status(503).json(`${err}`);
   }
 });
 
@@ -25,7 +25,31 @@ breeds.get("/breeds/length", async (_req: Request, res: Response) => {
     const length = await b.length();
     res.json({ length });
   } catch (err) {
-    res.status(503).json(err);
+    res.status(503).json(`${err}`);
+  }
+});
+
+breeds.get("/breeds/images", async (req: Request, res: Response) => {
+  try {
+    const limit = parseInt(req.query.limit as unknown as string);
+    const id = req.query.id as unknown as string;
+    // console.log(req.f);
+    // console.log(id, limit);
+
+    const images = await b.showImages(id, limit);
+    res.json(images);
+  } catch (err) {
+    res.status(404).json(`${err}`);
+  }
+});
+
+breeds.get("/breeds/:name", async (req: Request, res: Response) => {
+  try {
+    const name = req.params.name;
+    const breed = await b.show(name);
+    res.json(breed);
+  } catch (err) {
+    res.status(404).json(`${err}`);
   }
 });
 
