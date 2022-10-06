@@ -1,0 +1,52 @@
+version: 2.1
+orbs:
+  # orgs contain basc recipes and reproducible actions (install node, aws, etc.)
+  node: circleci/node@5.0.2
+  # heroku: circleci/heroku@1.2.6
+jobs:
+  build:
+    docker:
+      - image: "cimg/base:stable"
+      # more setup needed for aws, node, elastic beanstalk
+    steps:
+      - node/install:
+          node-version: "16.17.1"
+      - checkout
+      - run:
+          name: Install packages
+          # TODO: Install, build, deploy in both apps
+          command: |
+            npm install
+      - run:
+          name: build packages
+          # TODO: Install, build, deploy in both apps
+          command: |
+            npm run build
+  deploy:
+    docker:
+      - image: "cimg/base:stable"
+      # more setup needed for aws, node, elastic beanstalk
+    steps:
+      - node/install:
+          node-version: "16.17.1"
+      - checkout
+      - run:
+          name: Deploy to heroku
+          # TODO: Install, build, deploy in both apps
+          command: |
+            git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git master
+workflows:
+  build and deploy:
+    jobs:
+      - build
+      - hold:
+          filters:
+            branches:
+              only:
+                - master
+          type: approval
+          requires:
+            - build
+      - deploy:
+          requires:
+            - hold
