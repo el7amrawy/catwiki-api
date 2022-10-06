@@ -1,5 +1,6 @@
 import { Router, Request, Response } from "express";
 import { Breeds } from "../../services/breeds";
+import { topSearched, rankBreeds } from "../../services/topSearched";
 
 const b = new Breeds();
 
@@ -38,6 +39,41 @@ breeds.get("/breeds/images", async (req: Request, res: Response) => {
     res.json(images);
   } catch (err) {
     res.status(404).json(`${err}`);
+  }
+});
+
+breeds.post("/breeds/rank", (req: Request, res: Response) => {
+  try {
+    if (req.body.breed?.id.length && req.query.limit?.length) {
+      const { breed } = req.body;
+      const limit = parseInt(req.query.limit as unknown as string);
+
+      const top10 = rankBreeds(topSearched, breed).slice(0, limit);
+
+      res.json(top10);
+    } else {
+      throw new Error("please provide limit or breed or both");
+    }
+  } catch (err) {
+    res.status(503).json(`${err}`);
+  }
+});
+
+breeds.get("/breeds/rank", (req: Request, res: Response) => {
+  // console.log(1);
+
+  try {
+    if (req.query.limit?.length) {
+      const limit = parseInt(req.query.limit as unknown as string);
+
+      const top10 = topSearched.slice(0, limit);
+
+      res.json(top10);
+    } else {
+      throw new Error("limit rquired");
+    }
+  } catch (err) {
+    res.status(400).json(`${err}`);
   }
 });
 
