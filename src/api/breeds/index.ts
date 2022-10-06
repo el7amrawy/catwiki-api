@@ -60,8 +60,6 @@ breeds.post("/breeds/rank", (req: Request, res: Response) => {
 });
 
 breeds.get("/breeds/rank", (req: Request, res: Response) => {
-  // console.log(1);
-
   try {
     if (req.query.limit?.length) {
       const limit = parseInt(req.query.limit as unknown as string);

@@ -38,8 +38,8 @@ class Breeds {
         const res = await axios.get(
           `https://api.thecatapi.com/v1/images/search?breed_ids=${breed.id}&limit=1`
         );
-        const img: Object = res.data[0];
-        return { ...breed, img };
+        const image: Object = res.data[0];
+        return { ...breed, image };
       } else {
         throw new Error("breed not found");
       }

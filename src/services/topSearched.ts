@@ -475,6 +475,7 @@ const rankBreeds = (data: any[], breed: any) => {
   if (n) {
     data.push({ ...breed, count: 1 });
   }
+
   data.sort((a, b) => {
     if (a.count > b.count) {
       return -1;
@@ -483,7 +484,6 @@ const rankBreeds = (data: any[], breed: any) => {
     }
     return 0;
   });
-  // console.log(topSearched, data);
 
   return topSearched;
 };
