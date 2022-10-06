@@ -30,7 +30,7 @@ class Breeds {
   async show(name: string): Promise<Object> {
     try {
       const res = await axios.get(
-        `https://api.thecatapi.com/v1/breeds/search?q=${name}`
+        `https://api.thecatapi.com/v1/breeds/search?q=${name}&limit=1`
       );
       const breed = res.data[0];
 
@@ -55,7 +55,6 @@ class Breeds {
       );
       if (res.data.length) {
         const images = res.data;
-        // console.log(res.data);
 
         return images;
       } else {

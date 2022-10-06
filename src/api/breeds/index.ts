@@ -33,8 +33,6 @@ breeds.get("/breeds/images", async (req: Request, res: Response) => {
   try {
     const limit = parseInt(req.query.limit as unknown as string);
     const id = req.query.id as unknown as string;
-    // console.log(req.f);
-    // console.log(id, limit);
 
     const images = await b.showImages(id, limit);
     res.json(images);
